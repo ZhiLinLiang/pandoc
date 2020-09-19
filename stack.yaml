@@ -7,7 +7,7 @@ packages:
 - '.'
 extra-deps:
 - git: https://github.com/jgm/citeproc
-  commit: ee5cd1726037c79f6519d5be4822a1f795d09cad
+  commit: 210c5741370176002bf77852fc40337733f7a815
 - pandoc-types-1.22
 - texmath-0.12.0.3
 - rfc5051-0.2
