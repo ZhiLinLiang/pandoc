@@ -30,4 +30,3 @@ ghc-options:
 resolver: lts-14.6
 nix:
   packages: [zlib]
-
