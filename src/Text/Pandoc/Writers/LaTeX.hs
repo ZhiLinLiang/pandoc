@@ -542,7 +542,7 @@ blockToLaTeX (Div (identifier,classes,kvs) bs) = do
                "csl-bib-body" `elem` classes
                then do
                  modify $ \st -> st{ stHasCslRefs = True }
-                 inners <- mapM cslEntryToLaTeX bs
+                 inner <- blockListToLaTeX bs
                  return $ "\\begin{CSLReferences}" <>
                           (if "hanging-indent" `elem` classes
                               then braces "1"
@@ -550,9 +550,11 @@ blockToLaTeX (Div (identifier,classes,kvs) bs) = do
                           (case lookup "entry-spacing" kvs of
                              Nothing -> braces "0"
                              Just s  -> braces (literal s))
-                          $$ vcat inners
+                          $$ inner
                           $+$ "\\end{CSLReferences}"
-               else blockListToLaTeX bs
+               else if "csl-entry" `elem` classes
+                       then vcat <$> mapM cslEntryToLaTeX bs
+                       else blockListToLaTeX bs
   modify $ \st -> st{ stIncremental = oldIncremental }
   linkAnchor' <- hypertarget True identifier empty
   -- see #2704 for the motivation for adding \leavevmode:
