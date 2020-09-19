@@ -17,6 +17,7 @@ fromCslJson CslEmpty = mempty
 fromCslJson (CslConcat x y) = fromCslJson x <> fromCslJson y
 fromCslJson (CslQuoted x) = B.doubleQuoted (fromCslJson x)
 fromCslJson (CslItalic x) = B.emph (fromCslJson x)
+fromCslJson (CslNormal x) = fromCslJson x  -- TODO?
 fromCslJson (CslBold x) = B.strong (fromCslJson x)
 fromCslJson (CslUnderline x) = B.underline (fromCslJson x)
 fromCslJson (CslNoDecoration x) =
