@@ -323,9 +323,12 @@ pandocToHtml opts (Pandoc meta blocks) = do
                       else id) .
                   (if stCsl st
                       then defField "csl-css" True .
-                           maybe id (defField "csl-entry-spacing" .
-                                      (<> "em") . tshow)
-                             (stCslEntrySpacing st)
+                           (case stCslEntrySpacing st of
+                              Nothing -> id
+                              Just 0  -> id
+                              Just n  ->
+                                defField "csl-entry-spacing"
+                                  (tshow n <> "em"))
                       else id) .
                   (if stMath st
                       then defField "math" (renderHtml' math)
